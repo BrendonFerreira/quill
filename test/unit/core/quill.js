@@ -40,6 +40,16 @@ describe('Quill', function() {
       );
       expect(quill.root).toEqualHTML('<p class="ql-align-center">Test</p>');
     });
+
+    it('preserve handlers added before initialization', function(done) {
+      this.container.addEventListener('click', done);
+      let quill = new Quill(this.container);
+      quill.root.dispatchEvent(new MouseEvent('click', {
+        view: window,
+        bubbles: false,
+        cancelable: true
+      }));
+    });
   });
 
   describe('api', function() {
@@ -158,7 +168,7 @@ describe('Quill', function() {
     });
 
     it('user text insert', function(done) {
-      this.container.firstChild.firstChild.firstChild.data = '01!23';
+      this.quill.root.firstChild.firstChild.data = '01!23';
       let delta = new Delta().retain(2).insert('!');
       setTimeout(() => {
         expect(this.quill.emitter.emit)
@@ -172,7 +182,7 @@ describe('Quill', function() {
       this.quill.setSelection(2);
       this.quill.update();
       let old = this.quill.getContents();
-      let textNode = this.container.firstChild.firstChild.firstChild;
+      let textNode = this.quill.root.firstChild.firstChild;
       textNode.data = 'aaaaa';
       this.quill.selection.setNativeRange(textNode.data, 3);
       // this.quill.selection.update(Emitter.sources.SILENT);

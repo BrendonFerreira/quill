@@ -116,10 +116,11 @@ describe('Toolbar', function() {
         },
         theme: 'snow'
       });
+      this.toolbar = this.quill.getModule('toolbar');
     });
 
     it('toggle button', function() {
-      let boldButton = this.container.parentNode.querySelector('button.ql-bold');
+      let boldButton = this.toolbar.container.querySelector('button.ql-bold');
       this.quill.setSelection(7);
       expect(boldButton.classList.contains('ql-active')).toBe(true);
       this.quill.setSelection(2);
@@ -127,7 +128,7 @@ describe('Toolbar', function() {
     });
 
     it('link', function() {
-      let linkButton = this.container.parentNode.querySelector('button.ql-link');
+      let linkButton = this.toolbar.container.querySelector('button.ql-link');
       this.quill.setSelection(12);
       expect(linkButton.classList.contains('ql-active')).toBe(true);
       this.quill.setSelection(2);
@@ -135,7 +136,7 @@ describe('Toolbar', function() {
     });
 
     it('dropdown', function() {
-      let sizeSelect = this.container.parentNode.querySelector('select.ql-size');
+      let sizeSelect = this.toolbar.container.querySelector('select.ql-size');
       this.quill.setSelection(21);
       expect(sizeSelect.selectedIndex).toEqual(0);
       this.quill.setSelection(23);
@@ -147,8 +148,8 @@ describe('Toolbar', function() {
     });
 
     it('custom button', function() {
-      let centerButton = this.container.parentNode.querySelector('button.ql-align[value="center"]');
-      let leftButton = this.container.parentNode.querySelector('button.ql-align[value]');
+      let centerButton = this.toolbar.container.querySelector('button.ql-align[value="center"]');
+      let leftButton = this.toolbar.container.querySelector('button.ql-align[value]');
       this.quill.setSelection(17);
       expect(centerButton.classList.contains('ql-active')).toBe(true);
       expect(leftButton.classList.contains('ql-active')).toBe(false);

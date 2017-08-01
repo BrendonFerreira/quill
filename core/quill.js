@@ -56,20 +56,23 @@ class Quill {
     }
   }
 
-  constructor(container, options = {}) {
-    this.options = expandConfig(container, options);
-    this.container = this.options.container;
-    if (this.container == null) {
-      return debug.error('Invalid Quill container', container);
+  constructor(root, options = {}) {
+    this.options = expandConfig(root, options);
+    this.root = this.options.container;
+    if (this.root == null) {
+      return debug.error('Invalid Quill container', root);
     }
     if (this.options.debug) {
       Quill.debug(this.options.debug);
     }
-    let html = this.container.innerHTML.trim();
+    let html = this.root.innerHTML.trim();
+    this.root.innerHTML = '';
+    this.root.classList.add('ql-editor');
+    this.container = document.createElement('div');
     this.container.classList.add('ql-container');
-    this.container.innerHTML = '';
+    this.root.parentNode.insertBefore(this.container, this.root);
+    this.container.appendChild(this.root);
     this.container.__quill = this;
-    this.root = this.addContainer('ql-editor');
     this.root.classList.add('ql-blank');
     this.root.setAttribute('data-gramm', false);
     this.scrollingContainer = this.options.scrollingContainer || this.root;
